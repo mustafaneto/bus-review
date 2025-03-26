@@ -80,6 +80,14 @@ export default {
         title: 'Horário de Chegada',
         to: '/arrival',
       },
+      {
+        title: 'Horário de Partida',
+        to: '/departure',
+      },
+      {
+        title: 'Linha',
+        to: '/line',
+      }
     ],
   }),
 
