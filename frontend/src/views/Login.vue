@@ -15,7 +15,7 @@ onMounted(() => {
 
 const loginWithGoogle = async () => {
   const { error } = await supabase.auth.signInWithOAuth({
-    provider: 'google'
+    provider: 'google',
   })
   if (error) console.error('Login error:', error.message)
 }

@@ -1,7 +1,6 @@
 <template>
-  <h1>Ínicio</h1>
+  <h1>Ônibus</h1>
 </template>
 
 <script setup>
-
 </script>

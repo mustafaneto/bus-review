@@ -12,7 +12,17 @@
           <v-btn icon="mdi-filter" variant="text"></v-btn>
         </template>
 
-        <v-btn icon="mdi-dots-vertical" variant="text"></v-btn>
+        <v-menu>
+          <template #activator="{ props }">
+            <v-btn icon="mdi-dots-vertical" v-bind="props" variant="text"></v-btn>
+          </template>
+
+          <v-list>
+            <v-list-item @click="logout">
+              <v-list-item-title>Logout</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </v-app-bar>
 
       <v-navigation-drawer
@@ -20,9 +30,17 @@
         :location="$vuetify.display.mobile ? 'left' : undefined"
         temporary
       >
-        <v-list
-          :items="items"
-        ></v-list>
+        <v-list>
+          <v-list-item
+            v-for="item in items"
+            :key="item.title"
+            :to="item.to"
+            link
+            @click="drawer = false"
+          >
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
       </v-navigation-drawer>
 
       <v-main min-height="100vh">
@@ -33,36 +51,57 @@
 </template>
 
 <script>
-  import { RouterView } from 'vue-router'
-  
-  export default {
-    data: () => ({
-      drawer: false,
-      group: null,
-      items: [
-        {
-          title: 'Foo',
-          value: 'foo',
-        },
-        {
-          title: 'Bar',
-          value: 'bar',
-        },
-        {
-          title: 'Fizz',
-          value: 'fizz',
-        },
-        {
-          title: 'Buzz',
-          value: 'buzz',
-        },
-      ],
-    }),
+import supabase from '@/lib/supabaseClient'
+import { RouterView } from 'vue-router'
+import { useRouter } from 'vue-router'
 
-    watch: {
-      group () {
-        this.drawer = false
+export default {
+  data: () => ({
+    drawer: false,
+    group: null,
+    items: [
+      {
+        title: 'Início',
+        to: '/',
       },
+      {
+        title: 'Avaliações',
+        to: '/reviews',
+      },
+      {
+        title: 'Ônibus',
+        to: '/bus',
+      },
+      {
+        title: 'Ponto de Ônibus',
+        to: '/stop',
+      },
+      {
+        title: 'Horário de Chegada',
+        to: '/arrival',
+      },
+    ],
+  }),
+
+  setup() {
+    const router = useRouter()
+
+    const logout = async () => {
+      const { error } = await supabase.auth.signOut()
+      if (error) {
+        console.error('Logout error:', error.message)
+      } else {
+        router.push('/') 
+      }
+    }
+
+    return { logout }
+  },
+
+  watch: {
+    group() {
+      this.drawer = false
     },
-  }
+  },
+}
 </script>
