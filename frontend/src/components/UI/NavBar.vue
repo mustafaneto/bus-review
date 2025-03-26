@@ -19,7 +19,7 @@
 
           <v-list>
             <v-list-item @click="logout">
-              <v-list-item-title>Logout</v-list-item-title>
+              <v-list-item-title>Sair</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
