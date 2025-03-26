@@ -1,6 +1,6 @@
 <template>
   <v-sheet class="mx-auto" width="300">
-    <v-form @submit.prevent="addBusStop">
+    <v-form @submit.prevent="handleAdd">
       <v-text-field
         v-model="name"
         :rules="[v => !!v || 'Nome da Parada é obrigatória']"
@@ -20,22 +20,20 @@
 
 <script setup>
 import { ref } from 'vue'
-import supabase from '@/lib/supabaseClient'
+import { useBusStopStore } from '@/stores/busStopStore'
 
 const name = ref('')
 const location = ref('')
+const busStopStore = useBusStopStore()
 
-const addBusStop = async () => {
-  const { error } = await supabase.from('bus_stops').insert([
-    { name: name.value, location: location.value }
-  ])
-
-  if (error) {
-    alert('Error adding bus stop: ' + error.message)
-  } else {
-    alert('Bus stop added!')
+const handleAdd = async () => {
+  try {
+    await busStopStore.addBusStop(name.value, location.value)
+    alert('Parada adicionada com sucesso!')
     name.value = ''
     location.value = ''
+  } catch (error) {
+    alert('Erro ao adicionar parada: ' + error.message)
   }
 }
 </script>

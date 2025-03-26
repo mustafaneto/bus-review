@@ -11,7 +11,7 @@
         required
       ></v-select>
 
-      <v-select
+      <v-select 
         v-model="form.direction"
         :items="directions"
         label="Direção"
@@ -65,9 +65,6 @@ const handleAdd = async () => {
       form.value.departure_time,
     )
     alert('Horário adicionado com sucesso!')
-    form.value.line = ''
-    form.value.direction = ''
-    form.value.departure_time = ''
   } catch {
     alert('Erro ao adicionar horário.')
   }

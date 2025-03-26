@@ -18,9 +18,9 @@ export const useBusDepartureStore = defineStore('busDeparture', () => {
     }
   }
 
-  const addDeparture = async (line, direction, departure_time) => {
+  const addDeparture = async (line_id, direction, departure_time) => {
     const { error } = await supabase.from('bus_departures_time').insert({
-      line,
+      line_id,
       direction,
       departure_time
     })
